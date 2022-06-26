@@ -10,7 +10,7 @@
       >
         <v-list-item
           @click="doneTask(task.id)"
-          :class="{ 'teal accent-1' : task.done}"
+          :class="{ 'teal lighten-5' : task.done}"
         >
           <template v-slot:default>
             <v-list-item-action>
@@ -21,9 +21,21 @@
             </v-list-item-action>
 
             <v-list-item-content>
-              <v-list-item-title>{{ task.title }}</v-list-item-title>
+              <v-list-item-title
+                :class="{ 'text-decoration-line-through' : task.done}"
+              >
+                {{ task.title }}
+              </v-list-item-title>
             </v-list-item-content>
-          </template>
+          <v-list-item-action>
+            <v-btn icon
+              @click.stop="deleteTask(task.id)"
+              icon
+            >
+              <v-icon color="primary lighten-3">mdi-delete</v-icon>
+            </v-btn>
+          </v-list-item-action>
+          </template>          
         </v-list-item>
         <v-divider></v-divider>
       </div>    
@@ -67,6 +79,9 @@
       doneTask(id) {
         let task = this.tasks.filter(task => task.id === id)[0]
         task.done =!task.done
+      },
+      deleteTask(id) {
+        this.tasks = this.tasks.filter(task => task.id !== id)
       }
     }
   }
