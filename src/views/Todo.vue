@@ -1,25 +1,32 @@
 <template>
   <div class="home">
     <v-list
+    class="pt-0"
       flat
     >
-      <v-list-item
-        v-for="task in tasks"
-        :key="task.id"
+      <div
+          v-for="task in tasks"
+          :key="task.id"
       >
-        <template v-slot:default="{ active, }">
-          <v-list-item-action>
-            <v-checkbox
-              :input-value="active"
-              color="primary"
-            ></v-checkbox>
-          </v-list-item-action>
+        <v-list-item
+          @click="doneTask(task.id)"
+          :class="{ 'teal accent-1' : task.done}"
+        >
+          <template v-slot:default>
+            <v-list-item-action>
+              <v-checkbox
+                :input-value="task.done"
+                color="primary"
+              ></v-checkbox>
+            </v-list-item-action>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ task.title }}</v-list-item-title>
-          </v-list-item-content>
-        </template>
-      </v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>{{ task.title }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+        </v-list-item>
+        <v-divider></v-divider>
+      </div>    
 
     </v-list>
   </div>
@@ -34,22 +41,32 @@
         tasks: [
           {
             id: 1,
-            title: 'wake up'
+            title: 'wake up',
+            done: false
           },
           {
             id: 2,
-            title: 'make bed'
+            title: 'make bed',
+            done: false
           },
           {
             id: 3,
-            title: 'make coffee'
+            title: 'make coffee',
+            done: false
           },
           {
             id: 4,
-            title: 'drink said coffee'
+            title: 'drink said coffee',
+            done: false
           },
 
         ]
+      }
+    },
+    methods: {
+      doneTask(id) {
+        let task = this.tasks.filter(task => task.id === id)[0]
+        task.done =!task.done
       }
     }
   }
